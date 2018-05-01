@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <title>Trivia</title>
+    <style>
+        .col {
+            text-align: center;
+        }
+        .header-col {
+            text-align: center;
+            background-color: #fdffcc;
+            border: 1px solid black;
+            padding: 25px 0px;
+            margin: 15px;
+        }
+        li {
+            list-style-type: none;
+        }
+        .questDiv {
+            background-color: #66b2ff;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            let score = document.getElementById("score");
+            score.textContent = 0;
+            let geogDiv = document.getElementById('geog');
+            let entertainmentDiv = document.getElementById('entertainment');
+            let scienceDiv = document.getElementById('science');
+            let quizReload = document.getElementById('quizReload'); 
+            quizReload.style.display = 'none';
+            let quiz = {
+                'geog': [],
+                'entertainment': [],
+                'science': [],
+            }
+            let urlsAndDivNames = [
+                {url: 'https://opentdb.com/api.php?amount=10&category=22&difficulty=medium', divName: 'geog'},
+                {url: 'https://opentdb.com/api.php?amount=10&category=14&difficulty=medium',  divName: 'entertainment'},
+                {url: 'https://opentdb.com/api.php?amount=10&category=17&difficulty=medium', divName: 'science'},
+            ]
+
+            loadQuiz = () => {
+                urlsAndDivNames.forEach(urlAndName => {
+                    $.get(urlAndName.url, res => createQuizHtml(res, urlAndName.divName))
+                })
+            }
+            loadQuiz()
+
+
+            createQuizHtml = (res, divName) => {
+                quiz[divName] = res.results
+                let counter = 0;
+                let points = 100;
+
+                quiz[divName].forEach(questAns => {
+
+                    quiz[divName][counter].points = points
+                    points += 100
+
+                    let quizDiv = document.getElementById(divName);
+                    
+                    // Create Div for question and answers
+                    let questDiv = document.createElement('div')
+                    questDiv.className = "questDiv";
+
+                    // Create Question element
+                    let questElement = document.createElement('p');
+                    questElement.textContent = questAns.question;
+
+
+                    // Create answer ul
+                    let ansUL = document.createElement('ul');
+                    ansUL.className = 'ans-ul';
+
+                    // Create answers array
+                    let answers = questAns.incorrect_answers
+                    answers.splice(
+                        Math.random()*answers.length,
+                        0, 
+                        questAns.correct_answer
+                    );
+                    // Create answer label and radio buttons
+                    answers.forEach(answer => {
+
+                        // create radio buttons
+                        let ansRadio = document.createElement("INPUT");
+                        ansRadio.setAttribute("type", "radio");
+                        ansRadio.setAttribute("name", counter)
+                        ansRadio.value =answer;
+
+                        // Create label and set its text to answer
+                        let ansLabel = document.createElement("LABEL");
+                        ansLabel.textContent =  answer;
+
+                        // Append answer label and radio button to answer li
+                        let li = document.createElement('li');
+                        li.appendChild(ansRadio);
+                        li.appendChild(ansLabel);
+                        // Append li to ul
+                        ansUL.appendChild(li)
+                    })
+
+                    questDiv.appendChild(questElement);
+                    questDiv.appendChild(ansUL);
+                    quizDiv.appendChild(questDiv);
+                    counter++; // After building ea. question increase counter
+                })
+            }
+
+            document.addEventListener('click',
+                event => {
+                    if (event.target.type === 'radio') {
+                        let quizName = event.target.parentNode.parentNode.parentNode.parentNode.id
+                        let answer = event.target.value;
+                        let index = event.target.name;
+
+                        // if answer passed == correct_answer
+                        if (quiz[quizName][index].correct_answer === answer) {
+                            // Update Score
+                            let currentScore = score.textContent;
+                            score.textContent = "";
+                            score.textContent = Number(currentScore) + quiz[quizName][index].points;
+                        }
+                
+                        // Clear questionDiv when question has been answered
+                        let questionDiv = event.target.parentNode.parentNode.parentNode;
+                        questionDiv.innerHTML = "";
+
+                        // When all the questions have been answered show button to add new questions to pg
+                        let uls = document.querySelectorAll('.ans-ul')
+                        if (uls.length === 0) {
+                            quizReload.style = 'inline'
+                        }
+                    }
+                }
+            );
+
+            // add new questions to pg
+            quizReload.addEventListener('click', event => loadQuiz())
+         
+        })
+    </script>
+</head>
+<body class="container">
+    <div class="row">
+        <a href="#" id="quizReload" class="col">Continue with new questions</a>
+        <h3 class="col">Trivia Night</h3>
+        <h3 class="col">Score: <span id="score"></span></h3>
+    </div>
+    <br>
+    <div class="row">
+        <p class="col header-col">Geography</p>
+        <p class="col header-col">Entertainment</p>
+        <p class="col header-col">Science</p>
+    </div>
+    <div class="row">
+        <div id="geog" class="col"></div>
+        <div id="entertainment" class="col"></div>
+        <div id="science" class="col"></div>
+    </div>
+</body>
+</html>
