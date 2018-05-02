@@ -14,13 +14,13 @@ const server = http.createServer((req, res) => {
     }
 
     if (req.url === "/") {
-        readWriteServe('index.html')
+        readWriteServe('index.html');
     }
     else if (req.url === "/ninjas") {
-        readWriteServe('ninjas.html')
+        readWriteServe('ninjas.html');
     }
     else if (req.url === "/dojos/new") {
-        readWriteServe('dojos.html')
+        readWriteServe('dojos.html');
     }
     else {
         res.end('Error 404: File Not Found');
