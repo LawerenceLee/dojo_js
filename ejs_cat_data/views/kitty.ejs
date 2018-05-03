@@ -7,7 +7,13 @@
     <title><%= kitty.name %></title>
 </head>
 <body>
-   <h1>Details Page for <%= kitty.name %></h1> 
-   <img src="/static/<%= kitty.name %>.jpg" alt="<%= kitty.name %>">
+   <h1>Details Page for <%= kitty.Name %></h1> 
+   <img src="/<%= kitty.Name %>.jpg" alt="<%= kitty.Name %>">
+   <h3>Favorite Food: <%= kitty.Food %></h3>
+   <h3>Age: <%= kitty.Age %></h3>
+   <h3>Sleeping Spots:</h3>
+   <% for (let x in kitty.Sleeping_Spots) { %>
+        <p><%= kitty.Sleeping_Spots[x] %></p>
+   <% } %>
 </body>
 </html>
