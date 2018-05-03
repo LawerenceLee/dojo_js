@@ -37,8 +37,10 @@ function static_contents(req, res) {
         readWriteServe("."+req.url, 'text/css');
     }
     else if (req.url.match(imgRegex)) {
+        // Looking for filetype match in url
         const findMatch = req.url.match(/.+\.[a-zA-Z]{3,4}/);
         if (findMatch) {
+            // remove period from filetype and append it to contentType argument
             fileType = findMatch[0].slice(1, findMatch[0].length-1)
             readWriteServe("."+req.url, `image/${fileType}`)
         }
