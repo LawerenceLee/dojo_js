@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
+    <title>Index</title>
+</head>
+<body >
+    <form action="/results" method="post">
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" name="name">
+        </div>
+        <div class="form-group">
+            <label for="location">Dojo Location:</label>
+            <select name="location">
+                <option value="Ireland">Ireland</option>
+                <option value="Jump Street">Jump Street</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="language">Favorite Language:</label>
+            <select name="language">
+                <option value="python">Python</option>
+                <option value="Ruby">Ruby</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="comment">Comment (optional):</label>
+            <textarea name="comment" id="comment" cols="80" rows="8"></textarea>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</body>
+</html>
