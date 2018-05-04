@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js'></script>
+    <title>Index</title>
+</head>
+<body>
+    <div id="form-result"></div>
+    <form id="dojo-form" action="index.html">
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input id="name" type="text" name="name">
+        </div>
+        <div class="form-group">
+            <label for="location">Dojo Location:</label>
+            <select id="location" name="location">
+                <option value="Ireland">Ireland</option>
+                <option value="Jump Street">Jump Street</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="language">Favorite Language:</label>
+            <select id="language" name="language">
+                <option value="python">Python</option>
+                <option value="Ruby">Ruby</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="comment">Comment (optional):</label>
+            <textarea name="comment" id="comment" cols="80" rows="8"></textarea>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+    <script>
+        $(function() {
+            let socket = io.connect();
+            let $formResult = $('#form-result');
+            let $dojoForm = $('#dojo-form');
+            let $name = $('#name');
+            let $location = $('#location');
+            let $language = $('#language');
+            let $comment = $('#comment');
+
+            $dojoForm.submit(e => {
+                e.preventDefault();
+                socket.emit('form submit',
+                {
+                    name: $name.val(),
+                    location: $location.val(),
+                    language: $language.val(),
+                    comment: $comment.val(),
+                }),
+                function() {
+                    $name.val('');
+                    $location.val('');
+                    $language.val('');
+                    $comment.val('');
+                }
+            })
+
+            socket.on('present submission', data => {
+                let html = `<p>You emmitted information to the server: ${JSON.stringify(data.formData)}</p><br>
+                <p>Your lucky number emitted by the server is ${data.number}.</p>`
+                $formResult.html(html)
+            })
+
+        })
+    </script>
+</body>
+</html>
