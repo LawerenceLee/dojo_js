@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js'></script>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Group Chat</title>
+    <style>
+        #message-area {
+            display: none;
+        }
+        input {
+            width: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div id="message-area">
+        <h1>Conversation Board</h1>
+        <div id="board"></div>
+        <br>
+        <input id="message-entry" type="text" placeholder="enter your message here">
+        <button id="bttn">Send</button>
+    </div> 
+    <script>
+        $(document).ready(() => {
+            let socket = io.connect();
+            let $messageArea = $("#message-area");
+            let username = "";
+            let $board = $('#board');
+            let $messageEntry = $('#message-entry'); 
+            let $bttn = $('#bttn');
+
+            if ($messageArea.css('display').toLowerCase() === 'none' || !socket.username) {
+                socket.on('get username', () => {
+                    username = prompt("Your Name:");
+                    while (!username) {
+                        username = prompt("Your Name:");
+                    }
+                    socket.emit('new user', username);
+                })
+            }
+
+            $bttn.click(() => {
+                if ($messageEntry.val()) {
+                    socket.emit('sent message', $messageEntry.val())
+                    $messageEntry.val("")
+                }
+            })
+            
+            socket.on('reveal chat', () => {
+                $messageArea.css('display', 'block')
+            })
+
+            socket.on('flash message', message => {
+                alert(message)
+            }) 
+
+            socket.on('display message', data => {
+                $board.append(
+                    `<p><strong>${data.username}:</strong> ${data.message}</p>`
+                )
+            })
+
+        }) // end document ready
+    </script>
+</body>
+</html>
