@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Message Board</title>
+    <style>
+        #container {
+            margin: 100px 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <% if (messages.messagesErrors) { %>
+            <% for (let x of messages.messagesErrors) { %>
+                <p style="color: red"><%= x %></p>
+            <% } %>
+        <% } %>
+        <h1>The Dojo Message Board</h1>
+        <form action="/message" method="post">
+            <div class="form-group">
+                <p>Name:</p>
+                <input type="text" name="name">
+            </div>
+            <div class="form-group">
+                <p>Message:</p>
+                <input type="text" name="message">
+            </div>
+            <button type="submit">Post Message</button>
+        </form>
+        <hr>
+        <% for (let message of userMessages) { %>
+            <h3>Name: <%= message.name %></h3>
+            <h3>Message: <%= message.message %></h3>
+            <br>
+            <% for (let comment of message.comments) { %>
+                <p>Name: <%= comment.name %></p>
+                <p>Comment: <%= comment.comment %></p>
+                <br>
+            <% } %>
+            <form action="/comment" method="post">
+                <input type="hidden" name="id" value="<%= message._id %>">
+                <div class="form-group">
+                    <p>Name:</p>
+                    <input type="text" name="name">
+                </div>
+                <div class="form-group">
+                    <p>Comment:</p>
+                    <input type="text" name="comment">
+                </div>
+                <button type="submit">Post a Comment</button>
+            </form>
+        <% } %>
+    </div>
+
+    
+</body>
+</html>
