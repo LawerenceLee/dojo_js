@@ -3,7 +3,7 @@
     const app = express();
     app.set("view engine", "ejs");
     app.set("views", __dirname + "/client/views")
-    app.use(express.static(__dirname + "/public/static"))
+    app.use(express.static( __dirname + '/angularTasks/dist/angularTasks' ));
 
     // Session
     let session = require("express-session");
