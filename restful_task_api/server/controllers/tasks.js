@@ -7,14 +7,14 @@ module.exports = {
                 res.send(err.message)
             }
             else {
-                res.json(tasks)
+                res.json({tasks: tasks})
             }
         })
     },
     show: (req, res) => {
         Task.findById(req.params.taskId, (err, task) => {
             if (err) {
-                res.send(err.message)
+                res.json({error: err.message})
             }
             else {
                 res.json(task)
@@ -29,7 +29,7 @@ module.exports = {
         })
         taskInst.save(err => {
             if (err) {
-                res.send(err.message);
+                res.json({error: err.message})
             }
             else {
                 res.send(taskInst)
@@ -48,7 +48,7 @@ module.exports = {
                 task.completed = req.body.taskComp;
                 task.save(err => {
                     if (err) {
-                        res.send(err.message)
+                        res.json({error: err.message})
                     }
                     else {
                         res.send('Saved')
@@ -60,7 +60,7 @@ module.exports = {
     destroy: (req, res) => {
         Task.findByIdAndRemove(req.params.taskId, err => {
             if (err) {
-                res.send(err.message)
+                res.json({error: err.message})
             }
             else {
                 res.send("Deleted")
