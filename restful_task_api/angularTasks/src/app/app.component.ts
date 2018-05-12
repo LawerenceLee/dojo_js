@@ -8,14 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit{
   title = 'MEAN';
-  tasks = []; 
+  tasks = [];
+  showTask = ""; 
   constructor(private _httpService: HttpService){}
 
   ngOnInit() {
-    this.getTasksFromService()
+    // this.getTasksFromService()
+  }
+  showDesc(event) {
+    
+    let taskItem = event.target.previousElementSibling.innerText
+    console.log(taskItem)
+    for (let task of this.tasks) {
+      if (task.title === taskItem) {
+        this.showTask = task;
+      }
+    }
   }
 
-  getTasksFromService(){
+  getTasksFromService() {
     let observable = this._httpService.getTasks()
     observable.subscribe(data => {
       console.log("Got our data!", data);
