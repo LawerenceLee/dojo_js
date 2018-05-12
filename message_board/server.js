@@ -26,9 +26,9 @@ const commentSchema = new mongoose.Schema({
     comment: {type: String, required: true},
 })
 const messageSchema = new mongoose.Schema({
-    name: {type: String, required: true},
-    message: {type: String, required: true},
-    comments: [],
+    name: {type: String, required: [true, "Name field is required"]},
+    message: {type: String, required: [true, "Message field is required"]},
+    comments: [commentSchema],
 })
 mongoose.model('message', messageSchema);
 mongoose.model('comment', commentSchema);
@@ -44,7 +44,7 @@ const server = app.listen(portNum, () => {
 
 // Flash Errors
 flashErrors = (req, err) => {
-    for(var key in err.errors){
+    for (var key in err.errors){
         req.flash('messagesErrors', err.errors[key].message);
     } 
 }

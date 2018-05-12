@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-const Quote = mongoose.model('quote')
 const quotes = require('../controllers/quotes')
 module.exports = app => {
     app.get("/", (req, res) => {

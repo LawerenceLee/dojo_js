@@ -22,8 +22,6 @@ const flash = require('express-flash');
 app.use(flash());
 
 // Mongoose
-
-// const Wolf = mongoose.model('wolf');
 require("./server/config/mongoose")
 
 // Server

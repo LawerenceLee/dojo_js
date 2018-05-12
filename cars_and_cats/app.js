@@ -9,7 +9,6 @@ const server = http.createServer((req, res) => {
     readWriteServe = (filepath, contentType) => {
         fs.readFile(filepath, 'utf8', (err, content) => {
             if (err) {
-                // res.end('Error 404: File Not Found');
                 throw err;
             }
             else {

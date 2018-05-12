@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + "/static"))
+app.set('views', __dirname + '/client/views')
+app.use(express.static(__dirname + "/public/static"))
 
 // Session
 let session = require('express-session');
@@ -21,15 +22,7 @@ const flash = require('express-flash');
 app.use(flash());
 
 // Mongoose
-const mongoose = require('mongoose');
-const QuoteSchema = new mongoose.Schema({
-    author: {type: String, required: true},
-    quote: {type: String, required: true},
-    date: {type: Date},
-})
-mongoose.model('quote', QuoteSchema);
-const Quote = mongoose.model('quote');
-mongoose.connect('mongodb://localhost/quotes')
+require('./server/config/mongoose')
 
 // Server
 const portNum = 8000;
