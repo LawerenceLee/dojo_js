@@ -10,6 +10,5 @@
     <br><br>
   </div>
   <br>
-  <p>{{ showTask.title }}</p>
-  <p>{{ showTask.desc }}</p>
+  <app-task *ngIf='showTask' [taskToShow]="showTask"></app-task>
 </div>
