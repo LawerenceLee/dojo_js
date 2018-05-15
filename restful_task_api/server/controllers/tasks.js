@@ -1,71 +1,27 @@
 const mongoose = require('mongoose');
 const Task = mongoose.model('task');
+
+returnObjBuilder = (res) => {
+    return (err, data) => {
+        if (err) { res.json({ message: "error", error: err.message }) }
+        else { res.json({ message: "success", data: data }) }
+    }
+}
+
 module.exports = {
     index: (req, res) => {
-        Task.find({}, (err, tasks) => {
-            if (err) {
-                res.send(err.message)
-            }
-            else {
-                res.json({tasks: tasks})
-            }
-        })
+        Task.find({}, returnObjBuilder(res))
     },
     show: (req, res) => {
-        Task.findById(req.params.taskId, (err, task) => {
-            if (err) {
-                res.json({error: err.message})
-            }
-            else {
-                res.json(task)
-            }
-        })
+        Task.findById(req.params.taskId, returnObjBuilder(res))
     },
     create: (req, res) => {
-        let taskInst = new Task({
-            title: req.body.taskTitle,
-            desc: req.body.taskDesc,
-            completed: req.body.taskComp,
-        })
-        taskInst.save(err => {
-            if (err) {
-                res.json({error: err.message})
-            }
-            else {
-                res.send(taskInst)
-            }
-        })
-        
+        Task.create(req.body, returnObjBuilder(res))
     }, 
     update: (req, res) => {
-        Task.findById(req.params.taskId, (err, task) => {
-            if (err) {
-                res.send(err)
-            }
-            else {
-                task.title = req.body.taskTitle;
-                task.desc = req.body.taskDesc;
-                task.completed = req.body.taskComp;
-                task.save(err => {
-                    if (err) {
-                        res.json({error: err.message})
-                    }
-                    else {
-                        res.send('Saved')
-                    }
-                })
-            }
-        })
+        Task.findByIdAndUpdate(req.params.taskId, req.body, returnObjBuilder(res))
     },
     destroy: (req, res) => {
-        Task.findByIdAndRemove(req.params.taskId, err => {
-            if (err) {
-                res.json({error: err.message})
-            }
-            else {
-                res.send("Deleted")
-            }
-        })
-        
+        Task.findByIdAndRemove(req.params.taskId, returnObjBuilder(res))
     },
 }

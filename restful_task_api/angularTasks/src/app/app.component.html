@@ -1,15 +1,30 @@
 <div class="container">
-  <h1>Restful Tasks API</h1>
+  <h2>New Task</h2>
+  <form class="form-group" (submit)="onSubmit()">
+    <p>Title: <input type="text" name="newTask.title" [(ngModel)]="newTask.title" class="form-control"></p>
+    <p>Description: <input type="text" name="newTask.desc" [(ngModel)]="newTask.desc" class="form-control"></p>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+  </form>
+<br><hr>
+  <h2>Task List</h2>
   <br>
-  <button (click)="getTasksFromService()">Get All Tasks</button>
-  <hr>
-  <br>
-  <div *ngFor="let task of tasks" class="tasks">
-    <p class="d-inline">{{ task.title }}</p>
-    <button class="d-inline" (click)="showDesc($event)">Show</button>
-    <br><br>
+  <div class="row">
+    <div class="col-md-4">
+      <div *ngFor="let task of tasks; let i = index">
+        <h4 class="d-inline">{{ task.title }}</h4>
+        <p class="d-inline">{{ task.desc }}</p>
+        <button class="d-inline" (click)="editTask(i)">Edit</button>
+        <button class="d-inline" (click)="onDelete(i)">Delete</button>
+        <br><br>
+      </div>
+    </div>
+    <div class="col-lg-6">
+        <form class="form-group" (submit)="onEdit()">
+          <h2>Edit A Task</h2>
+          <p>Title: <input type="text" name="editedTask.title" [(ngModel)]="editedTask.title" class="form-control"></p>
+          <p>Description: <input type="text" name="editedTask.desc" [(ngModel)]="editedTask.desc" class="form-control"></p>
+          <button type="submit" class="btn btn-primary mb-2">Update</button>
+        </form>
+      </div>
   </div>
-  <br>
-  <p>{{ showTask.title }}</p>
-  <p>{{ showTask.desc }}</p>
 </div>

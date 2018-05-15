@@ -7,30 +7,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'MEAN';
   tasks = [];
-  showTask = ""; 
-  constructor(private _httpService: HttpService){}
+  editedTask = { title: "", desc: ""};
+  newTask = { title: "", desc: ""};
+
+  constructor(private _httpService: HttpService){
+  }
 
   ngOnInit() {
-    // this.getTasksFromService()
+    this.getTasksFromService()
   }
-  showDesc(event) {
-    
-    let taskItem = event.target.previousElementSibling.innerText
-    console.log(taskItem)
-    for (let task of this.tasks) {
-      if (task.title === taskItem) {
-        this.showTask = task;
-      }
-    }
+
+  editTask(taskIndex) {
+    this.editedTask = this.tasks[taskIndex];
+  }
+
+  onDelete(taskIndex) {
+    this._httpService.deleteTask(this.tasks[taskIndex]["_id"]).subscribe(data => {
+      if (data['message'] === 'error') { console.log(data['error']) }
+      else { this.getTasksFromService(); }
+    })
+  }
+
+  onEdit() {
+    this._httpService.updateTask(this.editedTask["_id"], this.editedTask).subscribe(data => {
+      if (data['message'] === 'error') { console.log(data['error']) }
+      else { this.getTasksFromService(); this.editedTask = { title: "", desc: "" }; }
+    })
+  }
+
+
+  onSubmit() {
+    this._httpService.addTask(this.newTask).subscribe(data => {
+      if (data['message'] === 'error') { console.log(data['error']) }
+      else { this.getTasksFromService(); this.newTask = { title: "", desc: "" }; }
+    })
   }
 
   getTasksFromService() {
-    let observable = this._httpService.getTasks()
-    observable.subscribe(data => {
-      console.log("Got our data!", data);
-      this.tasks = data['tasks'];
+    this._httpService.getTasks().subscribe(data => {
+      if (data['message'] === 'error') { console.log(data['error']) }
+      else { this.tasks = data['data'] };
     })
   }
 
