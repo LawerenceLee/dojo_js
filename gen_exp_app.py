@@ -1,11 +1,12 @@
 import os
 
 PROJ_NAME = ""
+CONTROLLER_NAME = ""
 
 
 def gen_folders():
-    os.system(f'mkdir -p ./{PROJ_NAME}/client/views')
-    os.system(f"mkdir -p ./{PROJ_NAME}/client/static")
+    # os.system(f'mkdir -p ./{PROJ_NAME}/client/views')
+    # os.system(f"mkdir -p ./{PROJ_NAME}/client/static")
     os.system(f"mkdir -p ./{PROJ_NAME}/server/config")
     os.system(f"mkdir -p ./{PROJ_NAME}/server/controllers")
     os.system(f"mkdir -p ./{PROJ_NAME}/server/models")
@@ -48,7 +49,7 @@ def build_serverJS():
 
     // Body Parser
     const bodyParser = require("body-parser");
-    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json());
 
     // Flash
     const flash = require("express-flash");
@@ -65,12 +66,22 @@ def build_serverJS():
 
     // Routes
     require("./server/config/routes.js")(app)"""
-    os.system(f"touch ./{PROJ_NAME}/server.js")
+    # os.system(f"touch ./{PROJ_NAME}/server.js")
     os.system(f"echo '{serverJS}' >> ./{PROJ_NAME}/server.js")
 
 
 def build_routes():
-    os.system(f"touch ./{PROJ_NAME}/server/config/routes.js")
+    routesJS = """
+    const %(CONTROLLER_NAME)s = require("../controllers/%(CONTROLLER_NAME)s")
+    module.exports = app => {
+        app.get("/%(CONTROLLER_NAME)s", %(CONTROLLER_NAME)s.index);
+        app.get("/%(CONTROLLER_NAME)s/:%(CONTROLLER_NAME)sId", %(CONTROLLER_NAME)s.show)
+        app.post("/%(CONTROLLER_NAME)s", %(CONTROLLER_NAME)s.create);
+        app.put("/%(CONTROLLER_NAME)s/:%(CONTROLLER_NAME)sId", %(CONTROLLER_NAME)s.update)
+        app.delete("/%(CONTROLLER_NAME)s/:%(CONTROLLER_NAME)sId", %(CONTROLLER_NAME)s.destroy)
+    }
+    """ % {'CONTROLLER_NAME': CONTROLLER_NAME}
+    os.system(f"echo '{ routesJS }' >> ./{ PROJ_NAME }/server/config/routes.js")
 
 
 def main():
@@ -82,4 +93,5 @@ def main():
 
 if __name__ == '__main__':
     PROJ_NAME = input('Enter Project Name: ')
+    CONTROLLER_NAME = input('Enter a Name for your main controller: ')
     main()
