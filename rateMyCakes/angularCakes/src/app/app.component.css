@@ -1,0 +1,26 @@
+img {
+    width: 150px;
+    height: 150px;
+    display: inline-block;
+    margin-right: 10px;
+}
+.cake {
+    margin-bottom: 10px;
+}
+
+.rate-form {
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#cake-list {
+    margin-left: 100px;
+    height: 275px;
+    overflow: scroll;
+}
+
+#cake-create {
+    padding: 15px;
+    border: solid 0.5px #a6a6a6;
+}

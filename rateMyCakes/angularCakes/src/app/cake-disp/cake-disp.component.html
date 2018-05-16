@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-6">
+    <h1>Baked by {{ cakeToShow.baker }}</h1>
+    <img src="{{ cakeToShow.url }}" alt="{{ cakeToShow.baker}}'s cake'">
+  </div>
+  <!-- need ave rating -->
+  <div class="col-md-4">
+    <p>Ave. Rating {{ cakeToShow.averageRating }} stars</p>
+    <div  *ngFor="let rating of cakeToShow.ratings">
+      <p>{{ rating.comment }}</p>
+      <p>{{ rating.stars }}</p>
+    </div>
+  </div>
+</div>
