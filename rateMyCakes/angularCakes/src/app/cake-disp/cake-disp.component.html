@@ -6,7 +6,7 @@
   <!-- need ave rating -->
   <div class="col-md-4">
     <p>Ave. Rating {{ cakeToShow.averageRating }} stars</p>
-    <div  *ngFor="let rating of cakeToShow.ratings">
+    <div *ngFor="let rating of cakeToShow.ratings">
       <p>{{ rating.comment }}</p>
       <p>{{ rating.stars }}</p>
     </div>

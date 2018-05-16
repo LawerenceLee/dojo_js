@@ -11,12 +11,10 @@ export class HttpService {
 
    getTasks() {
       return this._http.get('/tasks');
-    //  tempObservable.subscribe(data => console.log("Got our tasks!", data));
    }
 
    getTask(taskId) {
       return this._http.get(`/tasks/${taskId}`)
-    //  tempObservable.subscribe(data => console.log("Got our task!", data));
    }
 
    updateTask(taskId, taskObj) {
