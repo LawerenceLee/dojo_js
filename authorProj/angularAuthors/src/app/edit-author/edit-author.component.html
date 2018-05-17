@@ -1,0 +1,8 @@
+<button class="btn btn-link" [routerLink]="['/all']">Home</button>
+<p class="alert alert-danger" role="alert" *ngFor="let error of errors">{{ error }}</p>
+<p>Edit author</p>
+<form class="form-group" (submit)="onEdit()">
+  <p>Name: <input class="form-control" name="editedAuthor['name']" [(ngModel)]="editedAuthor['name']"></p>
+  <button class="btn btn-link" type="button" [routerLink]="['/all']">Cancel</button>
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
