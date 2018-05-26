@@ -81,7 +81,9 @@ export class ShowQuizComponent implements OnInit {
     this._httpService.putQuiz(this.quiz['_id'], this.quiz)
       .subscribe(data => {
         if (data["message"] === "error") { 
-          this.errors = data['error'];
+          for (let err of data['error']) {
+            this.errors.push(err)
+          }
         }
         else { 
           this.quiz = data['data'];

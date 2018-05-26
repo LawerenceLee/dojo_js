@@ -7,10 +7,11 @@ import * as socketIo from 'socket.io-client';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
   
   ngOnInit(): void {
     const socket = socketIo('http://localhost:8000');
-    socket.on('hello', data => console.log(data))
+    // socket.on('hello', data => this.title = data['greeting'])
   }
+
+
 }

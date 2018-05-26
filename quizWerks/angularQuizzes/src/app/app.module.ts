@@ -10,6 +10,7 @@ import { AllQuizzesComponent } from './all-quizzes/all-quizzes.component';
 import { ShowQuizComponent } from './show-quiz/show-quiz.component';
 import { QuestionFormComponent } from './show-quiz/question-form/question-form.component';
 import { EditQuizMetadataComponent } from './show-quiz/edit-quiz-metadata/edit-quiz-metadata.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EditQuizMetadataComponent } from './show-quiz/edit-quiz-metadata/edit-q
     AllQuizzesComponent,
     ShowQuizComponent,
     QuestionFormComponent,
-    EditQuizMetadataComponent
+    EditQuizMetadataComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

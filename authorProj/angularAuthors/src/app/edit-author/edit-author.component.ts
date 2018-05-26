@@ -34,6 +34,6 @@ export class EditAuthorComponent implements OnInit {
             this._router.navigate(["/all"]);
         }
     })
-}
+  }
 
 }

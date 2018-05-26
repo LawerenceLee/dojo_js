@@ -10,6 +10,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 })
 export class AllQuizzesComponent implements OnInit {
   quizzes: any[];
+  errors = [];
 
   constructor(
     private _httpService: HttpService,
@@ -19,7 +20,11 @@ export class AllQuizzesComponent implements OnInit {
 
   ngOnInit() {
     this._httpService.getQuizzes().subscribe(data => {
-      if (data["message"] === "error") { console.log(data["error"]) }
+      if (data["message"] === "error") { 
+        for (let err of data['error']) {
+          this.errors.push(err);
+        }
+      }
       else { this.quizzes = data["data"] };
     })
   }

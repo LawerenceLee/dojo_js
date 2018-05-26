@@ -48,7 +48,9 @@ export class EditQuizMetadataComponent implements OnInit {
       this._httpService.putQuiz(this.quiz['_id'], this.quiz)
         .subscribe(data => {
           if (data["message"] === "error") { 
-            this.errors = data['error'];
+            for (let err of data['error']) {
+              this.errors.push(err)
+            }
           }
           else { 
             this.resetPage();
@@ -56,6 +58,20 @@ export class EditQuizMetadataComponent implements OnInit {
           }
         })
     }
+  }
+
+  deleteQuiz() {
+    this._httpService.deleteQuiz(this.quiz['_id'])
+      .subscribe(data => {
+        if (data["message"] === "error") { 
+          for (let err of data['error']) {
+            this.errors.push(err)
+          }
+        }
+        else { 
+          this._router.navigate(['/all'])
+        }
+      })
   }
 
 }

@@ -37,7 +37,7 @@ export class AllAuthorsComponent implements OnInit {
     this._httpService.deleteAuthor(authorId).subscribe(data => {
         if (data["message"] === "error") { console.log(data["error"]) }
         else { this.getAuthors(); }
+      }
     })
-  }
 
 }

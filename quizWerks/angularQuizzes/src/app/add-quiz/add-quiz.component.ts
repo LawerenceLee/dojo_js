@@ -34,6 +34,8 @@ export class AddQuizComponent implements OnInit {
   }
 
   createQuiz(quizform: NgForm) {
+    this.errors = [];
+    console.log(this.errors)
     if (quizform.invalid) { 
       return;
     }
@@ -41,7 +43,12 @@ export class AddQuizComponent implements OnInit {
       this.newQuiz.questions.push(this.newQuestion)
       this._httpService.postQuiz(this.newQuiz)
         .subscribe(data => {
-          if (data["message"] === "error") { this.errors.push(data["error"]) }
+          if (data["message"] === "error") { 
+            for (let err of data['error']) {
+              this.errors.push(err)
+            }
+            this.newQuiz.questions = [];
+          }
           else { this._router.navigate([`/show/${data['data']['_id']}`]); } 
         })
     }

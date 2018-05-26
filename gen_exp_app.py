@@ -34,7 +34,7 @@ def build_serverJS():
     serverJS = """
     const express = require("express");
     const app = express();
-    const path = require('path')
+    const path = require("path")
     app.set("view engine", "ejs");
     app.set("views", __dirname + "/client/views")
     app.use(express.static(__dirname + "/angular%(CONTROLLER_NAME_TITLE)s/dist/angular%(CONTROLLER_NAME_TITLE)s"))
@@ -81,9 +81,9 @@ def build_routes():
     routesJS = """
     const %(CONTROLLER_NAME)s = require("../controllers/%(CONTROLLER_NAME)s")
     module.exports = app => {
-        app.get("/%(CONTROLLER_NAME)s", %(CONTROLLERL_NAME)s.index);
+        app.get("/%(CONTROLLER_NAME)s", %(CONTROLLER_NAME)s.index);
         app.get("/%(CONTROLLER_NAME)s/:%(MODEL_NAME)sId", %(CONTROLLER_NAME)s.show)
-        app.post("/%(CONTROLLER_NAME)s", %(CONTROLLERL_NAME)s.create);
+        app.post("/%(CONTROLLER_NAME)s", %(CONTROLLER_NAME)s.create);
         app.put("/%(CONTROLLER_NAME)s/:%(MODEL_NAME)sId", %(CONTROLLER_NAME)s.update)
         app.delete("/%(CONTROLLER_NAME)s/:%(MODEL_NAME)sId", %(CONTROLLER_NAME)s.destroy)
     }

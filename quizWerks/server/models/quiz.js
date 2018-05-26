@@ -1,20 +1,20 @@
+let mongoose = require("mongoose");
+const questionSchema = mongoose.Schema({
+    question: {type: String},
+    correctAnswer: {type: String},
+    altAnswer1: {type: String},
+    altAnswer2: {type: String},
+    altAnswer3: {type: String},
+})
+const quizzesSchema = mongoose.Schema({
+    owner_id: {type: String},
+    title: {type: String},
+    desc: {type: String},
+    category: [],
+    questions: [questionSchema],
+    questionCount: {type: Number}
+}, {timestamp: true})
 
-    let mongoose = require("mongoose");
-    const questionSchema = mongoose.Schema({
-        question: {type: String},
-        correctAnswer: {type: String},
-        altAnswer1: {type: String},
-        altAnswer2: {type: String},
-        altAnswer3: {type: String},
-    })
-    const quizzesSchema = mongoose.Schema({
-        title: {type: String},
-        desc: {type: String},
-        category: [],
-        questions: [questionSchema],
-        questionCount: {type: Number}
-    }, {timestamp: true})
 
+mongoose.model("quiz", quizzesSchema)
 
-    mongoose.model("quiz", quizzesSchema)
-    

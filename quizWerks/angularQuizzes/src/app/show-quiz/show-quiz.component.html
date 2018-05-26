@@ -19,7 +19,7 @@
   <tr *ngFor="let question of quiz.questions; let i = index">
     <td>
       <button class="btn btn-link" (click)="toEditForm(i)">Edit</button>
-      <button class="btn btn-link" (click)="deleteQuestion(i)">Delete</button>
+      <button class="btn btn-link delete-bttn" (click)="deleteQuestion(i)">Delete</button>
     </td>
     <td>{{ question.question }}</td>
     <td>{{ question.correctAnswer }}</td>
